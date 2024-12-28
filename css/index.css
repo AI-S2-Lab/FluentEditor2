@@ -1,0 +1,368 @@
+
+html {
+    font-size: 18px;
+    min-width: 1400px;
+    /* background-color: azure; */
+}
+
+.main {
+    width: 100%;
+    min-width: 1000px;
+    min-height: 10rem;
+    padding-bottom: 4rem;
+}
+
+
+.title {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 25px;
+    height: 16rem;
+    line-height: 2.5rem;
+    text-align: center;
+    font-weight: bold;
+    z-index: 1;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    justify-content: center;
+    background: #547689;
+    /*background: #5f7dbe;*/
+}
+
+.title > span {
+    position: absolute;
+    width: 80%;
+    z-index: 2;
+    color: white;
+}
+
+.top-img {
+    z-index: 1;
+    width: 100%;
+    position: relative;
+    display: none;
+}
+
+a {
+    color: black !important;
+}
+
+.author {
+    width: 80% !important;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.author span {
+    display: block;
+    width: 100%;
+    background-color: aliceblue;
+    /* font-weight: lighter; */
+    line-height: 2em;
+}
+
+.content {
+    width: 100%;
+    min-height: 2rem;
+}
+
+.section {
+    width: 100%;
+    min-height: 1rem;
+}
+
+.section-title {
+    width: 100%;
+    min-height: 3rem;
+    line-height: 3rem;
+    font-size: 20px;
+    color: #1D5DA4;
+    padding-left: 4rem;
+    font-weight: bold;
+}
+
+.section-content {
+    width: 90%;
+    margin: 2rem auto;
+    min-height: 3rem;
+    border-radius: 5px;
+    text-align: justify;
+}
+
+.abstract, .experiments {
+    /* background-color: #bdcbd2; */
+    padding: 2rem 2rem;
+    overflow-y: auto; /* 当内容超出时启用滚轮 */
+    max-height: 200px; /* 设置最大高度 */
+}
+
+/* 自定义滚动条样式 */
+.abstract::-webkit-scrollbar, .experiments::-webkit-scrollbar {
+    width: 6px; /* 滚动条的宽度，调窄 */
+}
+
+/* 滚动条轨道样式 */
+.abstract::-webkit-scrollbar-track, .experiments::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 滚动条轨道背景色 */
+    border-radius: 10px; /* 滚动条轨道圆角 */
+}
+
+/* 滑块样式 */
+.abstract::-webkit-scrollbar-thumb, .experiments::-webkit-scrollbar-thumb {
+    background: #888; /* 滑块颜色 */
+    border-radius: 10px; /* 滑块圆角 */
+}
+
+/* 滑块悬停时样式 */
+.abstract::-webkit-scrollbar-thumb:hover, .experiments::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 鼠标悬停时滑块颜色 */
+}
+
+
+.subsection-title {
+    width: 100%;
+    font-size: 18px;
+    height: 1rem;
+    line-height: 2rem;
+    font-weight: bold;
+    margin: 2rem auto;
+    color: #1D5DA4;
+}
+
+.module-title {
+    width: 100%;
+    font-size: 18px;
+    height: 3rem;
+    line-height: 3rem;
+    padding-left: 1rem;
+    margin: 2rem 0rem;
+    /* font-weight: bold; */
+    color: #1D5DA4;
+}
+
+.module-content {
+    width: 100%;
+    min-height: 10rem;
+    /* background-color: antiquewhite; */
+}
+
+#table_1, #table_2 {
+    width: 100%;
+    table-layout: fixed;
+    /* word-break: break-all; */
+    /* word-wrap: break-word; */
+}
+
+table th, table td {
+    border: 1px solid #e9ebec;
+    padding: 1em 1em;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+audio {
+    width: 100%;
+}
+
+#table_2 .history_audio {
+    width: 20% !important;
+    display: block;
+    margin: 1rem auto;
+}
+
+.history {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-title, .current-title {
+    margin: 1em auto;
+    font-weight: bold;
+}
+
+#table_2 span {
+    display: block;
+    width: 100%;
+}
+#table_3 {
+    border-collapse: collapse;
+    width: 100%; /* 表格宽度固定 */
+    table-layout: fixed; /* 表格布局固定 */
+}
+
+#table_3 th {
+    position: sticky; /* 表头固定 */
+    top: 0; /* 表头固定在页面顶部 */
+    z-index: 2; /* 确保表头在内容之上 */
+    background-color: white; /* 表头背景颜色 */
+    text-align: center; /* 表头文字居中 */
+    border: 1px solid #ddd; /* 表头边框 */
+    padding: 8px; /* 表头内边距 */
+}
+
+#table_3 td {
+    border: 1px solid #ddd; /* 表格内容边框 */
+    text-align: center; /* 内容居中 */
+    padding: 8px; /* 单元格内边距 */
+}
+
+#table_3 img {
+    width: 90%; /* 图片宽度 */
+    height: auto; /* 保持比例 */
+    display: block; /* 独占一行 */
+    margin: 0 auto; /* 图片居中 */
+}
+
+#table_3 audio {
+    width: 90%; /* 音频条宽度 */
+    display: block; /* 独占一行 */
+    margin: 0 auto; /* 音频条居中 */
+}
+
+
+/* #table_4 {
+    width: 100%;
+    table-layout: fixed;
+} */
+
+#table_4 {
+	border-collapse: collapse;
+	width: 100%; /* 确保表格宽度固定 */
+}
+
+#table_4 th {
+	position: sticky; /* 让表头固定 */
+	top: 0; /* 表头固定在页面顶部 */
+	z-index: 2; /* 确保表头在内容之上 */
+	background-color: white; /* 确保表头有背景色，防止透明 */
+	text-align: center; /* 保持居中对齐 */
+	border: 1px solid #ddd; /* 表头边框 */
+}
+
+#table_4 td {
+	border: 1px solid #ddd; /* 表格内容边框 */
+	text-align: center; /* 保持居中对齐 */
+}
+
+.note {
+    display: block;
+    width: 100%;
+    min-height: 2rem;
+    background-color: #e9ebec;
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+    line-height: 2rem;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.new-author {
+    width: 100%;
+    margin-top: 4%;
+    height: 100%;
+    font-size: 13px;
+    color: aliceblue;
+    line-height: 1.6 !important;
+}
+
+a {
+    color: blue !important;
+}
+
+
+/* 设置父容器为分栏布局 */
+.containercontainer {
+    display: flex; /* 使用 Flexbox 布局 */
+    width: 80%; /* 占满整个页面宽度 */
+    height: auto; /* 占满整个页面高度 */
+	margin: 0 auto;
+}
+
+/* 左侧摘要部分 */
+.content_r {
+    flex: 3; /* 左侧部分占 3/4 的宽度 */
+    background-color: #f9f9f9; /* 背景色 */
+    overflow-y: auto; /* 如果内容超出，允许纵向滚动 */
+    border-right: 1px solid #ddd; /* 分隔线 */
+}
+
+/* 右侧目录部分 */
+.sidebar {
+    flex: 1; /* 右侧部分占 1/4 的宽度 */
+    padding: 10px;
+    background-color: #e9ecef; /* 背景色 */
+    overflow-y: auto; /* 如果内容超出，允许纵向滚动 */
+}
+
+/* 目录标题样式 */
+.sidebar h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* 目录列表样式 */
+.sidebar ul {
+    list-style: none; /* 去掉默认的列表符号 */
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 12px; /* 每个列表项之间的间距 */
+    padding-left: 35px; /* 左缩进 */
+}
+
+.sidebar ul li a {
+    text-decoration: none; /* 去掉下划线 */
+    color: #555 !important; /* 添加 `!important` 强制覆盖其他样式 */
+    font-size: 17px; 
+    font-weight: 600; 
+    transition: color 0.3s ease; /* 鼠标悬停时的颜色变化动画 */
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline; /* 鼠标悬停时加下划线 */
+    color: #1e88e5 !important; /* 舒适的蓝色悬停颜色 */
+}
+
+/* 调整标题样式 */
+.sidebar h2 {
+    font-size: 20px; /* 设置标题字体大小 */
+    margin-bottom: 15px; /* 标题和列表之间的间距 */
+    color: #333; /* 标题为深灰色 */
+    text-indent: 15px; /* 标题左缩进 */
+    border-bottom: 2px solid #ddd; /* 添加标题下的分隔线 */
+    padding-bottom: 5px; /* 给分隔线和文字之间留一点空间 */
+}
+
+/* 子标题样式 */
+.sidebar ul li ul {
+    list-style: none; /* 去掉子列表的符号 */
+    padding-left: 2px; /* 子标题缩进，和主标题区分 */
+    margin: 5px 0; /* 子标题的上下间距 */
+}
+
+.sidebar ul li ul li {
+    margin-bottom: 8px; /* 子标题之间的间距 */
+}
+
+/* 子标题链接样式 */
+.sidebar ul li ul li a {
+    text-decoration: none;
+    color: #777; /* 子标题颜色比主标题更浅 */
+    font-size: 15px; /* 子标题字体稍小 */
+    font-weight: 500; /* 子标题字体稍细 */
+}
+
+.sidebar ul li ul li a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* 子标题悬停颜色 */
+}

@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		<meta charset="utf-8">
+		<title>FluentEditor Demo</title>
+		<link type="text/css" href="./css/basic.css" rel="stylesheet">
+		<link type="text/css" href="./css/index.css" rel="stylesheet">
+		<link type="text/css" href="./css/bootstrap.min.css" rel="stylesheet">
+		<script type='text/javascript' src="./js/jquery-3.3.1.min.js"></script>
+		<script type='text/javascript' src="./js/index.js"></script>
+	</head>
+	<style>
+		body {
+			font-family: "Times New Roman", Times, serif;
+		}
+	</style>
+	<body>
+
+		<div class="main">
+			<div class="title">
+<!--				<img class="top-img" src="img/background.png"  alt="#"/>-->
+				<div class="new-author">
+					<span style="font-size: 30px; line-height: 1.4">FluentEditor2: Text-based Speech Editing by Modeling Multi-Scale Acoustic and Prosody Consistency</span>
+					<br>
+					<br>
+					<br>
+					<br>
+					<span style="line-height: 1"><b>Rui Liu<sup>1</sup>, Jiatian Xi<sup>1,*</sup>, Ziyue Jiang<sup>2</sup>, Haizhou Li<sup>3,4</sup></br></span>
+					<span>
+						<sup>1</sup>Speech Understanding and Speech Generation (S2) Lab, Inner Mongolia University, Hohhot, China </br>
+						<sup>2</sup>Zhejiang University, China</br>
+						<sup>3</sup>Shenzhen Research Institute of Big Data, School of Data Science,The Chinese University of Hong Kong, Shenzhen(CUHK-Shenzhen), China</br>
+						<sup>4</sup>National University of Singapore, Singapore</br>
+					</span>
+					<span>liurui_imu@163.com, x_jiatian@163.com, ziyuejiang@zju.edu.cn, haizhouli@cuhk.edu.cn</span>
+				</div>
+			</div>
+			
+			
+			
+			<div class="content">
+				<div  id="abstract" class="containercontainer">
+					<div class="content_r">
+						<div class="section-title">ABSTRACT</div>
+						<div class="section-content abstract">
+							Text-based speech editing (TSE) allows users to edit speech by modifying the corresponding text directly without altering the original recording. 
+							Current TSE techniques often focus on minimizing discrepancies between generated speech and reference within edited regions during training to 
+							achieve fluent TSE performance. However, the generated speech in the edited region should maintain acoustic and prosodic consistency with the 
+							unedited region and the original speech at both the local and global levels. To maintain speech fluency, we propose a new fluency speech editing 
+							scheme based on our previous FluentEditor model, termed <strong>FluentEditor2</strong>, by modeling the multi-scale acoustic and prosody 
+							consistency training criterion in TSE training. Specifically, for local acoustic consistency, we propose <strong>Hierarchical Local Acoustic 
+							Smoothness Constraint</strong> (\( \mathcal{L}_{H L A C} \) ) to align the acoustic properties of speech frames, phonemes, and words at the boundary between the generated speech in 
+							the edited region and the speech in the unedited region. For global prosody consistency, we propose <strong>Contrastive Global Prosody 
+							Consistency Constraint</strong> (\( \mathcal{L}_{G C P C} \) ) to keep the speech in the edited region consistent with the prosody of the original utterance. Extensive experiments 
+							on the VCTK and LibriTTS datasets show that FluentEditor2 surpasses existing neural networks-based TSE methods, including 
+							Editspeech, Campnet, \( A^3T \), FluentSpeech, and our Fluenteditor, in both subjective and objective. Ablation studies further highlight 
+							the contributions of each module to the overall effectiveness of the system. Speech demos are available 
+							at: <a href="https://github.com/Ai-S2-Lab/FluentEditor2">https://github.com/Ai-S2-Lab/FluentEditor2</a>
+						</div>
+					</div>
+					
+					<div class="sidebar">
+						<br>
+						<h2>CONTENT</h2>
+						<ul>
+							<li>
+								<a href="#111111">TSE Operation</a>
+								<ul>
+									<li><a href="#insertion">Insertion</a></li>
+									<li><a href="#replacement">Replacement</a></li>
+									<li><a href="#deletion">Deletion</a></li>
+								</ul>
+							</li>
+							<li><a href="#222222">Comparison with Other Baselines</a></li>
+							<li><a href="#333333">Ablation study</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="section">
+					<div class="section-title">Speech Demo</div>
+					<div class="section-content statement">
+						<!-- In this study, the VCTK Dataset was chosen for demonstration. For editing operations such as insertion and replacement, we used the original audio as a reference. We compared the performance of the system with our proposed system in audio editing. This not only showcases the editing effects but also enables listeners to evaluate the editing performance of different systems. -->
+						<strong>Dataset:</strong> VCTK and LibriTTS</br>
+						<strong>Operations: </strong>Insertion, Replacement and Deletion
+					</div>
+				</div>
+
+				<div class="section">
+					<div class="section-content ">
+					<div id="111111" class="subsection-title">1. Operation of text-based speech editing based on FluentEditor2</div>
+						<div class="subsection-exp-1">
+						<div id="insertion" class="module-title">Insertion</div>
+						<div class="module-content">
+						<table id="table_1">
+							<colgroup>
+							        <col style="width: 200px;"> <!-- 第一列的宽度为100像素 -->
+							        <col> <!-- 第二列的宽度-->
+							        <col> <!-- 第三列的宽度未定义，将根据内容自动调整 -->
+							</colgroup>
+						  <thead>
+						    <tr>
+							  <th style="text-align: center">item_name</th>
+						      <th style="text-align: center"><strong>GT</strong></th>
+						      <th style="text-align: center"><strong>FluentEditor2</strong></th>
+						    </tr>
+						  </thead>
+						  <tbody>
+
+							<tr>
+							  <td style="text-align: center">
+								  <strong>p274_339</strong>
+							  </td>
+							  <td style="text-align: center">
+								<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									<img src="./resources/out_insert/fluenteditor2/out_spec/p274_339/mel_gt.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+								</div>
+								</br>
+							  	<!-- <img src="./resources/out_insert/fluenteditor/out_spec/p308_100/mel_gt.png" style="max-width: 80%; height: auto;"></br> -->
+							  	<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_insert/fluenteditor2/similarity/p274_339_ref.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>original_text:</strong>There is a handful of rewarding paintings .
+
+
+							  </td>
+							  
+							  <td style="text-align: center">
+								<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									<img src="./resources/out_insert/fluenteditor/out_spec/p274_339/mel_out.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+								</div>
+							  	</br>
+								<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_insert/fluenteditor/similarity/p274_339.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>edited_text:</strong>
+								There is a handful of rewarding <mark><u>but challenging</u></mark> paintings .
+
+							  </td>
+
+						    </tr>
+
+
+							<tr>
+							  <td style="text-align: center">
+								<strong>4640_19187</br>_000026_000005</strong>
+							  </td>
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_insert/fluenteditor2/out_spec/4640_19187_000026_000005/mel_gt.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+							  	<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_insert/fluenteditor2/similarity/4640_19187_000026_000005_ref.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>original_text:</strong>The mouse , plus the cat , is the proof of creation revised and corrected .
+
+
+							  </td>
+
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_insert/fluenteditor2/out_spec/4640_19187_000026_000005/mel_out.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+								<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_insert/fluenteditor2/similarity/4640_19187_000026_000005.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>edited_text:</strong>
+								The mouse , plus the cat , is the <mark><u>ultimate</u></mark> proof of creation revised and corrected .
+
+							  </td>
+
+							</tr>
+
+						  </tbody>
+						</table>
+						</div>
+						</div>
+					</div>
+					</div>
+				</div>
+				
+				<div class="section">
+					<div class="section-content">
+						<div id="replacement" class="module-title">Replacement </div>
+						<div class="module-content">
+						<table id="table_2">
+							<colgroup>
+							        <col style="width: 200px;"> <!-- 第一列的宽度为100像素 -->
+							        <col> <!-- 第二列的宽度-->
+							        <col> <!-- 第三列的宽度未定义，将根据内容自动调整 -->
+							</colgroup>
+						  <thead>
+						    <tr>
+							  <th style="text-align: center">item_name</th>
+						      <th style="text-align: center"><strong>GT</strong></th>
+						      <th style="text-align: center"><strong>FluentEditor</strong></th>
+						    </tr>
+						  </thead>
+						  <tbody>
+
+							<tr>
+							  <td style="text-align: center">
+								  <strong>p260_179</strong>
+							  </td>
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_replace/fluenteditor2/out_spec/p260_179/mel_gt.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+							  	<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_replace/fluenteditor2/similarity/p260_179_ref.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>original_text:</strong>I saw military vehicles in the distance .
+
+
+							  </td>
+
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_replace/fluenteditor2/out_spec/p260_179/mel_out.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+								<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_replace/fluenteditor2/similarity/p260_179.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>edited_audio:</strong>
+								I <mark><u>observed</u>(<del>saw</del>)</mark> military vehicles in the distance .
+
+							  </td>
+
+						    </tr>
+
+
+							<tr>
+							  <td style="text-align: center">
+								<strong>3983_5371</br>_000008_000001</strong>
+							  </td>
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_replace/fluenteditor2/out_spec/3983_5371_000008_000001/mel_gt.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+							  	<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_replace/fluenteditor2/similarity/3983_5371_000008_000001_ref.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>original_text:</strong>Much he knows of heaven !
+
+
+							  </td>
+
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_replace/fluenteditor2/out_spec/3983_5371_000008_000001/mel_out.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+								<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_replace/fluenteditor2/similarity/3983_5371_000008_000001.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>edited_audio:</strong>
+								Much he <mark><u>understands</u>(<del>knows</del>)</mark> of heaven !
+
+							  </td>
+
+							</tr>
+
+
+						  </tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="section">
+					<div class="section-content">
+						<div class="subsection-exp-1">
+						<div id="deletion" class="module-title">Deletion</div>
+						<div class="module-content">
+						<table id="table_1">
+							<colgroup>
+							        <col style="width: 200px;"> <!-- 第一列的宽度为100像素 -->
+							        <col> <!-- 第二列的宽度-->
+							        <col> <!-- 第三列的宽度未定义，将根据内容自动调整 -->
+							</colgroup>
+						  <thead>
+						    <tr>
+							  <th style="text-align: center">item_name</th>
+						      <th style="text-align: center"><strong>GT</strong></th>
+						      <th style="text-align: center"><strong>FluentEditor</strong></th>
+						    </tr>
+						  </thead>
+						  <tbody>
+				
+							<tr>
+							  <td style="text-align: center">
+								  <strong>p293_073</strong>
+							  </td>
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_delete/fluenteditor2/out_spec/p293_073/mel_gt.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+							  	<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_delete/fluenteditor2/similarity/p293_073_ref.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>original_text:</strong>It has been a lovely family occasion .
+				
+				
+							  </td>
+				
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_delete/fluenteditor2/out_spec/p293_073/mel_out.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+								<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_delete/fluenteditor2/similarity/p293_073.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>edited_text:</strong>
+								it has been a <mark><del>lovely</del></mark> family occasion .
+				
+							  </td>
+				
+						    </tr>
+				
+				
+							<tr>
+							  <td style="text-align: center">
+								<strong>5808_54425</br>_000010_000005</strong>
+							  </td>
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_delete/fluenteditor2/out_spec/5808_54425_000010_000005/mel_gt.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+							  	<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_delete/fluenteditor2/similarity/5808_54425_000010_000005_ref.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>original_text:</strong>She kept her promise and threw him over .
+				
+				
+							  </td>
+				
+							  <td style="text-align: center">
+							  	<div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+							  		<img src="./resources/out_delete/fluenteditor2/out_spec/5808_54425_000010_000005/mel_out.png" style="width: 80%; height: auto; min-width: 200px; max-width: 600px;">
+							  	</div></br>
+								<audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									<source src="./resources/out_delete/fluenteditor2/similarity/5808_54425_000010_000005.wav" autoplay/>
+								</audio>
+								<br><br>
+								<strong>edited_text:</strong>
+								She kept her promise <mark><del>and threw</del></mark> him over .
+				
+							  </td>
+				
+							</tr>
+				
+				
+						  </tbody>
+						</table>
+						</div>
+						</div>
+					</div>
+					</div>
+				</div>
+
+
+
+				<div class="section">
+					<div class="section-content">
+						<div id="222222" class="subsection-title">2. Comparison between FluentEditorand Other Systems </div>
+						<div class="subsection-exp-1">
+							<div class="section">
+								<li> <b>FluentEditor2</b>: FluentEditor2 improves TSE by enforcing local acoustic smoothness and global prosody consistency, ensuring fluency between edited and unedited regions;
+									<a href="https://arxiv.org/pdf/2410.03719" target="_blank">[paper]</a>
+									<a href="https://github.com/Ai-S2-Lab/FluentEditor2" target="_blank">[code]</a>
+								</li>
+								<li> <b>FluentEditor</b>: FluentEditor propose a fluency speech editing model tomaintain the speech fluency, by considering fluency-aware training criterion in the TSE training;
+									<a href="https://www.isca-archive.org/interspeech_2024/liu24p_interspeech.pdf" target="_blank">[paper]</a>
+									<a href="https://github.com/Ai-S2-Lab/FluentEditor" target="_blank">[code]</a>
+								</li>
+								<li> <b>FluentSpeech</b>: FluentSpeech takes the diffusion model as backbone and predict the masked feature with the help of context speech;
+									<a href="https://arxiv.org/pdf/2305.13612.pdf" target="_blank">[paper]</a>
+									<a href="https://github.com/Zain-Jiang/Speech-Editing-Toolkit" target="_blank">[code]</a></li>
+								<li> <b>\( A^3T \)</b>: \( A^3T \) propose the alignment-aware acoustic-text pre-training that takes both phonemes and partially-masked spectrograms as inputs;
+									<a href="https://proceedings.mlr.press/v162/bai22d/bai22d.pdf" target="_blank">[paper]</a>
+									<a href="https://github.com/richardbaihe/a3t" target="_blank">[code]</a></li>
+								<li> <b>CampNet</b>: CampNet propose a context-aware mask prediction network to simulate the process of text-based speech editing.
+									<a href="https://arxiv.org/pdf/2202.09950.pdf" target="_blank">[paper]</a>
+									</li>
+
+							</div>
+
+							<div class="module-content">
+
+								<table id="table_3">
+								  <thead>
+								    <tr>
+									  
+								      <th style="text-align: center"><strong>FluentEditor2</strong></th>
+								      <th style="text-align: center"><strong>FluentEditor</strong></th>
+								      <th style="text-align: center"><strong>FluentSpeech</strong></th>
+									  <th style="text-align: center"><strong>\( A^3T \)</strong></th>
+								      <th style="text-align: center"><strong>CampNet</strong></th>
+									  <th style="text-align: center"><strong>EditSpeech</strong></th>
+								    </tr>
+								  </thead>
+								  <tbody>
+
+								    <tr>
+								      <td colspan="-5" style="text-align: left"><span>
+								      <strong>operation: </strong>Insert</br>
+								      <strong>item_name: </strong>p288_080</span></td>
+								      <td colspan="5" style="text-align: left"><span>
+								      <strong>original_text: </strong>It's all going to clear the debt . </br>
+								      <strong>edited_audio: </strong>
+									  It's <mark><u>eventually</u></mark> all going to clear the debt .
+									  
+								      </span></td>
+								    </tr>
+								    <tr>
+									   <td style="text-align: center">
+									     <img src="./resources/out_insert/fluenteditor2/out_spec/p288_080/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									     <audio controls="controls" style="max-width: 95%; width: 95%;">
+									     	<source src="./resources/out_insert/fluenteditor2/similarity/p288_080.wav" autoplay/>
+									     </audio>
+									   </td>
+								      <td style="text-align: center">
+								        <img src="./resources/out_insert/fluenteditor/out_spec/p288_080/mel_out.png" style="max-width: 95%; height: auto;"></br>
+								        <audio controls="controls" style="max-width: 95%; width: 95%;">
+								        	<source src="./resources/out_insert/fluenteditor/similarity/p288_080.wav" autoplay/>
+								        </audio>
+								      </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/fluentspeech/out_spec/p288_080/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/fluentspeech/similarity/p288_080.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/a3t/out_spec/p288_080/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/a3t/similarity/p288_080.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/campnet/out_spec/p288_080/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/a3t/similarity/p288_080.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/editspeech/out_spec/p288_080/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/editspeech/similarity/p288_080.wav" autoplay/>
+									    </audio>
+									  </td>
+								    </tr>
+									<tr>
+
+									  <td colspan="-5" style="text-align: left"><span>
+									  <strong>operation: </strong>Insert</br>
+									  <strong>item_name: </strong>8580_287364_000068_000001</span></td>
+									  <td colspan="5" style="text-align: left"><span>
+									  <strong>original_text: </strong>But i hoped to accomplish it by other means . </br>
+									  <strong>edited_audio: </strong>
+									  But I <mark><u>sincerely</u></mark> hoped to accomplish it by other means .
+									  </span></td>
+									</tr>
+									<tr>
+										<td style="text-align: center">
+										  <img src="./resources/out_insert/fluenteditor2/out_spec/8580_287364_000068_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+										  <audio controls="controls" style="max-width: 95%; width: 95%;">
+										  	<source src="./resources/out_insert/fluenteditor2/similarity/8580_287364_000068_000001.wav" autoplay/>
+										  </audio>
+										</td>
+									  
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/fluenteditor/out_spec/8580_287364_000068_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/fluenteditor/similarity/8580_287364_000068_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/fluentspeech/out_spec/8580_287364_000068_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/fluentspeech/similarity/8580_287364_000068_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									 <td style="text-align: center">
+									   <img src="./resources/out_insert/a3t/out_spec/8580_287364_000068_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									   <audio controls="controls" style="max-width: 95%; width: 95%;">
+									   	<source src="./resources/out_insert/a3t/similarity/8580_287364_000068_000001.wav" autoplay/>
+									   </audio>
+									 </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/campnet/out_spec/8580_287364_000068_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/campnet/similarity/8580_287364_000068_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_insert/editspeech/out_spec/8580_287364_000068_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_insert/editspeech/similarity/8580_287364_000068_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									</tr>
+									
+
+									<tr>
+									  <td colspan="-5" style="text-align: left"><span>
+									  <strong>operation: </strong>Replace</br>
+									  <strong>item_name: </strong>p278_145</span></td>
+									  <td colspan="5" style="text-align: left"><span>
+									  <strong>original_text: </strong>It was his job to check .</br>
+									  <strong>edited_audio: </strong>
+									  It was his <mark><u>responsibility</u> (<del>job</del>)</mark> to check .
+																	
+									  </span></td>
+									</tr>
+
+									<tr>
+									<td style="text-align: center">
+									  <img src="./resources/out_replace/fluenteditor2/out_spec/p278_145/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									  <audio controls="controls" style="max-width: 95%; width: 95%;">
+									  	<source src="./resources/out_replace/fluenteditor2/similarity/p278_145.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <img src="./resources/out_replace/fluenteditor/out_spec/p278_145/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									  <audio controls="controls" style="max-width: 95%; width: 95%;">
+									  	<source src="./resources/out_replace/fluenteditor/similarity/p278_145.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <img src="./resources/out_replace/fluentspeech/out_spec/p278_145/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									  <audio controls="controls" style="max-width: 95%; width: 95%;">
+									  	<source src="./resources/out_replace/fluentspeech/similarity/p278_145.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <img src="./resources/out_replace/a3t/out_spec/p278_145/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									  <audio controls="controls" style="max-width: 95%; width: 95%;">
+									  	<source src="./resources/out_replace/a3t/similarity/p278_145.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <img src="./resources/out_replace/campnet/out_spec/p278_145/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									  <audio controls="controls" style="max-width: 95%; width: 95%;">
+									  	<source src="./resources/out_replace/campnet/similarity/p278_145.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <img src="./resources/out_replace/editspeech/out_spec/p278_145/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									  <audio controls="controls" style="max-width: 95%; width: 95%;">
+									  	<source src="./resources/out_replace/editspeech/similarity/p278_145.wav" autoplay/>
+									  </audio>
+									</td>
+									</tr>
+
+									<tr>
+
+									  <td colspan="-5" style="text-align: left"><span>
+									  <strong>operation: </strong>Replace</br>
+									  <strong>item_name: </strong>p4195_186238_000047_000001</span></td>
+									  <td colspan="5" style="text-align: left"><span>
+									  <strong>original_text: </strong>We're dreadfully rich , uncle john ; so you neednt worry if you dont strike a job yourself all at once . </br>
+									  <strong>edited_audio: </strong>
+									  We're <mark><u>incredibly</u> (<del>dreadfully</del>)</mark> rich , uncle john ; so you neednt worry if you dont strike a job yourself all at once .
+									  </span></td>
+									</tr>
+									<tr>
+										
+									  <td style="text-align: center">
+									    <img src="./resources/out_replace/fluenteditor2/out_spec/4195_186238_000047_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_replace/fluenteditor2/similarity/4195_186238_000047_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_replace/fluenteditor/out_spec/4195_186238_000047_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_replace/fluenteditor/similarity/4195_186238_000047_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_replace/fluentspeech/out_spec/4195_186238_000047_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_replace/fluentspeech/similarity/4195_186238_000047_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_replace/a3t/out_spec/4195_186238_000047_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_replace/a3t/similarity/4195_186238_000047_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_replace/campnet/out_spec/4195_186238_000047_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_replace/campnet/similarity/4195_186238_000047_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_replace/editspeech/out_spec/4195_186238_000047_000001/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_replace/editspeech/similarity/4195_186238_000047_000001.wav" autoplay/>
+									    </audio>
+									  </td>
+									</tr>
+									
+									<tr>
+									
+									  <td colspan="-5" style="text-align: left"><span>
+									  <strong>operation: </strong>Deletion</br>
+									  <strong>item_name: </strong>p238_047</span></td>
+									  <td colspan="5" style="text-align: left"><span>
+									  <strong>original_text: </strong>They have shown a great desire and attitude . </br>
+									  <strong>edited_audio: </strong>
+									  They have shown <mark><del>a great</del></mark> desire and attitude .
+									  </span></td>
+									</tr>
+									<tr>
+										<td style="text-align: center">
+										  <img src="./resources/out_delete/fluenteditor2/out_spec/p238_047/mel_out.png" style="max-width: 95%; height: auto;"></br>
+										  <audio controls="controls" style="max-width: 95%; width: 95%;">
+										  	<source src="./resources/out_delete/fluenteditor2/similarity/p238_047.wav" autoplay/>
+										  </audio>
+										</td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/fluenteditor/out_spec/p238_047/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/fluenteditor/similarity/p238_047.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/fluentspeech/out_spec/p238_047/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/fluentspeech/similarity/p238_047.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/a3t/out_spec/p238_047/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/a3t/similarity/p238_047.wav" autoplay/>
+									    </audio>
+									  </td>
+									  
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/campnet/out_spec/p238_047/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/campnet/similarity/p238_427.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/editspeech/out_spec/p238_047/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/editspeech/similarity/p238_047.wav" autoplay/>
+									    </audio>
+									  </td>
+									</tr>
+									
+									<tr>
+									
+									  <td colspan="-5" style="text-align: left"><span>
+									  <strong>operation: </strong>Deletion</br>
+									  <strong>item_name: </strong>1867_154071_000012_000003</span></td>
+									  <td colspan="5" style="text-align: left"><span>
+									  <strong>original_text: </strong>There could be no shadow of a doubt about it .</br>
+									  <strong>edited_audio: </strong>
+									  There could be no <mark><del>no shadow of a</del></mark> doubt about it .
+									  </span></td>
+									</tr>
+									<tr>
+										
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/fluenteditor2/out_spec/1867_154071_000012_000003/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/fluenteditor2/similarity/1867_154071_000012_000003.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/fluenteditor/out_spec/1867_154071_000012_000003/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/fluenteditor/similarity/1867_154071_000012_000003.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/fluentspeech/out_spec/1867_154071_000012_000003/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/fluentspeech/similarity/1867_154071_000012_000003.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/a3t/out_spec/1867_154071_000012_000003/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/a3t/similarity/1867_154071_000012_000003.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/campnet/out_spec/1867_154071_000012_000003/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/campnet/similarity/1867_154071_000012_000003.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <img src="./resources/out_delete/editspeech/out_spec/1867_154071_000012_000003/mel_out.png" style="max-width: 95%; height: auto;"></br>
+									    <audio controls="controls" style="max-width: 95%; width: 95%;">
+									    	<source src="./resources/out_delete/editspeech/similarity/1867_154071_000012_000003.wav" autoplay/>
+									    </audio>
+									  </td>
+									</tr>
+
+
+								  </tbody>
+								</table>
+
+							</div>
+
+
+						</div>
+
+						<div id="333333" class="subsection-title">3. Ablation study on FluentEditor</div>
+							<div class="subsection-exp-2">
+								<div class="section">
+									To further validate the contribution of our \( \mathcal{L}_{H L A C} \) and \( \mathcal{L}_{G C P C} \) respectively, two ablation experiments are designed:
+									<li>   <b>\( \text { w/o } \mathcal{L}_{H L A C} \)</b>: Remove the acoustic consistency training criterion</li>
+									<li>   <b>\( \text { w/o } \mathcal{L}_{G C P C} \)</b>: Remove the prosody consistency training criterion</li>
+
+								</div>
+							<div class="module-content">
+
+								<table id="table_4">
+								  <thead>
+								    <tr>
+									  <th style="text-align: center"><strong>GT</strong></th>
+								      <th style="text-align: center"><strong>FluentEditor2</strong></th>
+								      <th style="text-align: center"><strong>\( \text { w/o } \mathcal{L}_{H L A C} \)</strong></th>
+									  <th style="text-align: center"><strong>\( \text { w/o } \mathcal{L}_{C G P C} \)</strong></th>
+								    </tr>
+								  </thead>
+								  <tbody>
+								   <tr>
+								     <td colspan="-3" style="text-align: left"><span>
+								     <strong>operation: </strong>Insert</br>
+								     <strong>item_name: </strong>p265_292</span></td>
+								     <td colspan="3" style="text-align: left"><span>
+								     <strong>original_text: </strong>Last night was a key episode .</br>
+								     <strong>edited_audio: </strong>
+									 Last night was <mark><u>undoubtedly</u></mark> a key episode .
+								     </span></td>
+								   </tr>
+
+									<tr>
+									<td style="text-align: center">
+									  <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									  	<img src="./resources/out_insert/fluenteditor2/out_spec/p265_292/mel_gt.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+									  </div></br>
+									  <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									  	<source src="./resources/out_insert/fluenteditor2/similarity/p265_292_ref.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									  	<img src="./resources/out_insert/fluenteditor2/out_spec/p265_292/mel_out.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+									  </div></br>
+									  <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									  	<source src="./resources/out_insert/fluenteditor2/similarity/p265_292.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									  	<img src="./resources/out_insert/fluenteditor2_wo_HLAC/out_spec/p265_292/mel_out.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+									  </div></br>
+									  <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									  	<source src="./resources/out_insert/fluenteditor2_wo_HLAC/similarity/p265_292.wav" autoplay/>
+									  </audio>
+									</td>
+									<td style="text-align: center">
+									  <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									  	<img src="./resources/out_insert/fluenteditor2_wo_CGPC/out_spec/p265_292/mel_out.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+									  </div></br>
+									  <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									  	<source src="./resources/out_insert/fluenteditor2_wo_CGPC/similarity/p265_292.wav" autoplay/>
+									  </audio>
+									</td>
+
+								    </tr>
+								    <tr>
+								      <td colspan="-3" style="text-align: left"><span>
+								      <strong>operation: </strong>Insert</br>
+								      <strong>item_name: </strong>405_130895_000037_000005</span></td>
+								      <td colspan="3" style="text-align: left"><span>
+								      <strong>original_text: </strong>Later, Sir Richard Hawkins called them the Maidenland, after the blessed virgin .</br>
+								      <strong>edited_audio: </strong>
+									  Later, Sir Richard Hawkins called them the Maidenland, <mark><u>named</u></mark> after the Blessed Virgin .
+								      </span></td>
+								    </tr>
+
+								    <tr>
+								      <td style="text-align: center">
+								        <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+								        	<img src="./resources/out_insert/fluenteditor2/out_spec/405_130895_000037_000005/mel_gt.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+								        </div></br>
+								        <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+								        	<source src="./resources/out_insert/fluenteditor2/similarity/405_130895_000037_000005_ref.wav" autoplay/>
+								        </audio>
+								      </td>
+									  <td style="text-align: center">
+									    <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									    	<img src="./resources/out_insert/fluenteditor2/out_spec/405_130895_000037_000005/mel_out.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+									    </div></br>
+									    <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									    	<source src="./resources/out_insert/fluenteditor2/similarity/405_130895_000037_000005.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									    	<img src="./resources/out_insert/fluenteditor2_wo_HLAC/out_spec/405_130895_000037_000005/mel_out.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+									    </div></br>
+									    <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									    	<source src="./resources/out_insert/fluenteditor2_wo_HLAC/similarity/405_130895_000037_000005.wav" autoplay/>
+									    </audio>
+									  </td>
+									  <td style="text-align: center">
+									    <div style="transform: scale(1); transform-origin: center; transition: transform 0.3s ease-in-out;">
+									    	<img src="./resources/out_insert/fluenteditor2_wo_CGPC//out_spec/405_130895_000037_000005/mel_out.png" style="width: 100%; height: auto; min-width: 200px; max-width: 600px;">
+									    </div></br>
+									    <audio controls="controls" style="max-width: 80%; min-width: 200px; max-width: 500px;">
+									    	<source src="./resources/out_insert/fluenteditor2_wo_CGPC/similarity/405_130895_000037_000005.wav" autoplay/>
+									    </audio>
+									  </td>
+
+								    </tr>
+									
+
+
+								  </tbody>
+								</table>
+
+							</div>
+
+				</div>
+
+						</div>
+			</div>
+		</div>
+
+
+	</body>
+</html>
