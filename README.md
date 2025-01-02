@@ -10,5 +10,5 @@ This paper was submitted for an IEEE publication.
 ## Speech samples
 
 
-Speech samples are available at [demo page](https://ttslr.github.io/FluentEditor2/).
+Speech samples are available at [demo page](https://ai-s2-lab.github.io/FluentEditor2/).
 
